@@ -1,0 +1,64 @@
+1 进入 conda 环境之后，使用以下命令从本地克隆一个已有的 pytorch 2.0.1 的环境
+
+bash # 请每次使用 jupyter lab 打开终端时务必先执行 bash 命令进入 bash 中
+bash /root/share/install_conda_env_internlm_base.sh internlm-demo  # 执行该脚本文件来安装项目实验环境
+2 然后使用以下命令激活环境
+conda activate internlm-demo
+
+3 并在环境中安装运行 demo 所需要的依赖。
+
+# 升级pip
+python -m pip install --upgrade pip
+
+pip install modelscope==1.9.5
+pip install transformers==4.35.2
+pip install streamlit==1.24.0
+pip install sentencepiece==0.1.99
+pip install accelerate==0.24.1
+
+4 模型下载
+
+mkdir -p /root/model/Shanghai_AI_Laboratory
+cp -r /root/share/temp/model_repos/internlm-chat-7b /root/model/Shanghai_AI_Laboratory
+
+5 代码准备
+首先 clone 代码，在 /root 路径下新建 code 目录，然后切换路径, clone 代码.
+
+cd /root/code
+git clone https://gitee.com/internlm/InternLM.git
+
+cd InternLM
+git checkout 3028f07cb79e5b1d7342f4ad8d11efad3fd13d17
+
+2.4 终端运行
+我们可以在 /root/code/InternLM 目录下新建一个 cli_demo.py 文件，将以下代码填入其中：
+
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+
+model_name_or_path = "/root/model/Shanghai_AI_Laboratory/internlm-chat-7b"
+
+tokenizer = AutoTokenizer.from_pretrained(model_name_or_path, trust_remote_code=True)
+model = AutoModelForCausalLM.from_pretrained(model_name_or_path, trust_remote_code=True, torch_dtype=torch.bfloat16, device_map='auto')
+model = model.eval()
+
+system_prompt = """You are an AI assistant whose name is InternLM (书生·浦语).
+- InternLM (书生·浦语) is a conversational language model that is developed by Shanghai AI Laboratory (上海人工智能实验室). It is designed to be helpful, honest, and harmless.
+- InternLM (书生·浦语) can understand and communicate fluently in the language chosen by the user such as English and 中文.
+"""
+
+messages = [(system_prompt, '')]
+
+print("=============Welcome to InternLM chatbot, type 'exit' to exit.=============")
+
+while True:
+    input_text = input("User  >>> ")
+    input_text = input_text.replace(' ', '')
+    if input_text == "exit":
+        break
+    response, history = model.chat(tokenizer, input_text, history=messages)
+    messages.append((input_text, response))
+    print(f"robot >>> {response}")
+
+
