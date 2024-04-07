@@ -75,5 +75,54 @@ streamlit run /root/Tutorial/helloworld/bajie_chat.py --server.address 127.0.0.1
 <img src =".\imgs\ls2-04.png" >
 
 ## 3 使用 Lagent 运行 InternLM2-Chat-7B 模型
+#### 1 拉去代码并安装
+```shell
+conda activate demo
+cd /root/demo
+git clone https://gitee.com/internlm/lagent.git
+cd /root/demo/lagent
+git checkout 581d9fb8987a5d9b72bb9ebd37a95efd47d479ac
+pip install -e .
+```
+#### 2 创建 Internlm2-chat-7b 的模型软链接到 /root/models/internlm2-chat-7b
+```shell
+ln -s /root/share/new_models/Shanghai_AI_Laboratory/internlm2-chat-7b /root/models/internlm2-chat-7b
+```
+#### 3 将模型路径改为 /root/models/internlm2-chat-7b
+修改文件  /root/demo/lagent/examples/internlm2_agent_web_demo_hf.py
+<img src =".\imgs\hw2-4.png">
+<img src ="..\homework\imgs\hw2-5.png">
 
+#### 4 启动 Web demo 并将 6006 端口映射到本地，然后在本地浏览器打开 demo 项目
+```shell
+streamlit run /root/demo/lagent/examples/internlm2_agent_web_demo_hf.py --server.address 127.0.0.1 --server.port 6006
+```
+
+## 4 浦语·灵笔2 的 图文创作步骤
+#### 1 切换到 conda demo 环境并安装必须的补充包
+```shell
+conda activate demo
+pip install timm==0.4.12 sentencepiece==0.1.99 markdown2==2.4.10 xlsxwriter==3.1.2 gradio==4.13.0 modelscope==1.9.5
+```
+#### 2 克隆 InternLM-XComposer 仓库 并切换到指定提交
+```shell
+cd /root/demo
+git clone https://gitee.com/internlm/InternLM-XComposer.git
+cd /root/demo/InternLM-XComposer
+git checkout f31220eddca2cf6246ee2ddf8e375a40457ff626
+```
+#### 3 创建 浦语·灵笔2 模型软链接
+```shell
+ln -s /root/share/new_models/Shanghai_AI_Laboratory/internlm-xcomposer2-7b /root/models/internlm-xcomposer2-7b
+ln -s /root/share/new_models/Shanghai_AI_Laboratory/internlm-xcomposer2-vl-7b /root/models/internlm-xcomposer2-vl-7b
+```
+#### 4 启动图文写作 Demo 并转发 6006 端口到本地，然后在本地浏览器打开 http://127.0.0.1:6006
+```shell
+cd /root/demo/InternLM-XComposer
+python /root/demo/InternLM-XComposer/examples/gradio_demo_composition.py  \
+--code_path /root/models/internlm-xcomposer2-7b \
+--private \
+--num_gpus 1 \
+--port 6006
+```
 
