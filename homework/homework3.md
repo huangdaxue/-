@@ -74,6 +74,9 @@ python3 -m huixiangdou.main --standalone
 <img src =".\imgs\hw3-7.png">
 
 ## 2 创建知识问答助手（基础作业1）
+
+##### WEB茴香豆地址：
+https://openxlab.org.cn/apps/detail/tpoisonooo/huixiangdou-web
 #### 2.1 创建知识库
 <img src =".\imgs\hw3-2.png">
 
