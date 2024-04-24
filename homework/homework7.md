@@ -7,6 +7,11 @@
 
 <img src =".\imgs\hw7-6.png">
 
+## 3 评测 internlm2-chat-1_8b 模型在 C-Eval 数据集上的性能
+
 <img src =".\imgs\hw7-7.png">
 
-## 3 评测 internlm2-chat-1_8b 模型在 C-Eval 数据集上的性能
+## 4 自定义数据集客主观评测
+
+
+
