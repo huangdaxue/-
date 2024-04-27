@@ -1,4 +1,4 @@
-# 实践教程（InternStudio 版）
+# WEB部署实践教程（InternStudio 版）
 ### 1 环境配置
 ```shell
 conda create -n llama3 python=3.10
